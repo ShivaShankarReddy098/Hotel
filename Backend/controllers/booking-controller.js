@@ -10,7 +10,7 @@ const getBookingDetails = async (req, res, next) => {
     console.log("ERROR", err);
   }
 };
-module.exports = getBookingDetails;
+
 const createBooking = async (req, res) => {
   try {
     let newBooking = await booking.insertOne({
@@ -28,7 +28,7 @@ const createBooking = async (req, res) => {
     console.log("ERROR", err);
   }
 };
-module.exports = createBooking;
+
 const updateBooking = async (req, res) => {
   try {
     const userId = req.params.id;
@@ -47,7 +47,7 @@ const updateBooking = async (req, res) => {
     console.log("ERROR", err);
   }
 };
-module.exports = updateBooking;
+
 const deleteBooking = async (req, res) => {
   try {
     const deleteId = req.params.deleteId;
@@ -60,4 +60,4 @@ const deleteBooking = async (req, res) => {
     console.log("ERROR", err);
   }
 };
-module.exports = deleteBooking;
+module.exports = {updateBooking,deleteBooking,createBooking,getBookingDetails};
