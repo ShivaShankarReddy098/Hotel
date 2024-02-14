@@ -12,7 +12,7 @@ const getUser = async (req, res) => {
     console.log("ERROR", err);
   }
 };
-module.exports = getUser;
+
 const createUser = async (req, res) => {
   try {
     let newUser = await user.insertOne({
@@ -32,7 +32,7 @@ const createUser = async (req, res) => {
     console.log("ERROR", err);
   }
 };
-module.exports = createUser;
+
 const updateUser = async (req, res) => {
   try {
     const userId = req.params.id;
@@ -53,7 +53,7 @@ const updateUser = async (req, res) => {
     console.log("ERROR", err);
   }
 };
-module.exports = updateUser;
+
 const deleteUser = async (req, res) => {
   try {
     const deleteId = req.params.deleteId;
@@ -66,4 +66,4 @@ const deleteUser = async (req, res) => {
     console.log("ERROR", err);
   }
 };
-module.exports = deleteUser;
+module.exports = {deleteUser,updateUser,createUser,getUser};
