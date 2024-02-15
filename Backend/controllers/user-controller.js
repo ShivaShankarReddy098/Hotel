@@ -1,10 +1,11 @@
-// import user from "../models/user";
-
 const express = require("express");
 const user = require("../models/user");
-const getUser = async (req, res) => {
+const userCltr = {};
+
+userCltr.getUser = async (req, res) => {
   try {
     let userData = await user.find();
+    console.log(userData);
     return res.status(200).json({
       userData,
     });
@@ -13,57 +14,62 @@ const getUser = async (req, res) => {
   }
 };
 
-const createUser = async (req, res) => {
+userCltr.createUser = async (req, res) => {
   try {
-    let newUser = await user.insertOne({
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password,
-      phone: req.body.phone,
-      place: req.body.place,
-      state: req.body.state,
-      address: req.body.address,
-    });
-    return res.status(200).json({
-      newUser,
-    });
+    let newUser = await user.create(
+      req.body
+      // email: req.body.email,
+      // password: req.body.password,
+      // phone: req.body.phone,
+      // place: req.body.place,
+      // state: req.body.state,
+      // address: req.body.address,
+    );
+    await newUser.save();
     console.log("user created");
+    return res.status(200).json(newUser);
   } catch (err) {
     console.log("ERROR", err);
   }
 };
 
-const updateUser = async (req, res) => {
+userCltr.updateUser = async (req, res) => {
   try {
     const userId = req.params.id;
-    const addUser = await user.findByIdAndUpdate(userId, {
-      name: req.body.name,
-      // email: req.body.email,
-      // password: req.body.password,
-      phone: req.body.phone,
-      place: req.body.place,
-      state: req.body.state,
-      address: req.body.address,
-    });
+    const addUser = await user.findByIdAndUpdate(
+      userId,
+      req.body
+      // name: req.body.name,
+      // // email: req.body.email,
+      // // password: req.body.password,
+      // phone: req.body.phone,
+      // place: req.body.place,
+      // state: req.body.state,
+      // address: req.body.address,
+    );
+    await addUser.save();
+    console.log("user updated");
     return res.status(200).json({
       addUser,
     });
-    console.log("user updated");
   } catch (err) {
     console.log("ERROR", err);
   }
 };
 
-const deleteUser = async (req, res) => {
+userCltr.deleteUser = async (req, res) => {
   try {
-    const deleteId = req.params.deleteId;
-    let removeUser = await user.findByIdAndDelete(deleteId, {});
+    const deleteId = req.params.id;
+    let removeUser = await user.findByIdAndDelete(deleteId,{});
+    console.log("user deleted");
+    // await removeUser.save();
     return res.status(200).json({
       message: "User data removed ",
     });
-    console.log("user deleted");
   } catch (err) {
     console.log("ERROR", err);
   }
 };
-module.exports = {deleteUser,updateUser,createUser,getUser};
+module.exports = userCltr;
+//this way or writing your controllers would be better and efficient
+// do not user module.exports multiple only last exports will be exported the rest wont so export the way it is commented
