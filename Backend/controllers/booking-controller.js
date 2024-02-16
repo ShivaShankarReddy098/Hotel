@@ -23,8 +23,12 @@ bookingCltr.createBooking = async (req, res) => {
       // members: req.body.members,
       // type: req.bbody.type,
     );
-    console.log("user created");
+    console.log("booking created");
     await newBooking.save();
+    // res.set({
+    //   "Allow-access-Allow-Origin": "*",
+    // });
+    // return res.redirect("./public/bookingSubmitted.html");
     return res.status(200).json({
       newBooking,
     });

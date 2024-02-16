@@ -13,7 +13,20 @@ userCltr.getUser = async (req, res) => {
     console.log("ERROR", err);
   }
 };
-
+userCltr.getSingleUser = async (req, res) => {
+  try {
+    const usetId = await user.find( {email:req.body.email} );
+    if (!usetId) {
+      console.log("user not found");
+      return res.status(404).json({ message: "No User Found" });
+    } else {
+      console.log("user found");
+      return res.status(200).json(user);
+    }
+  } catch (err) {
+    return res.status(404).json({ message: err });
+  }
+};
 userCltr.createUser = async (req, res) => {
   try {
     let newUser = await user.create(
@@ -60,7 +73,7 @@ userCltr.updateUser = async (req, res) => {
 userCltr.deleteUser = async (req, res) => {
   try {
     const deleteId = req.params.id;
-    let removeUser = await user.findByIdAndDelete(deleteId,{});
+    let removeUser = await user.findByIdAndDelete(deleteId, {});
     console.log("user deleted");
     // await removeUser.save();
     return res.status(200).json({

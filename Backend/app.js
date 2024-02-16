@@ -8,6 +8,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.json()); ///imp
 const router = require("./routes/user-router");
 const Router = require("./routes/booking-router");
+const home = require("./routes/home-router");
+app.use(home);
 app.use(router);
 app.use(Router);
 // git pull origin main
@@ -17,8 +19,8 @@ async function db() {
   try {
     await mongoose.connect("mongodb://localhost:27017/allUserData");
     console.log("Database is connected!!");
-    app.listen(7000, () => {
-      console.log("Server is running at port 7000");
+    app.listen(3000, () => {
+      console.log("Server is running at port 3000");
     });
   } catch (err) {
     console.log(err);
