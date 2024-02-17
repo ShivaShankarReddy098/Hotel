@@ -3,7 +3,9 @@ const booking = require("../models/booking");
 const bookingCltr = {};
 bookingCltr.getBookingDetails = async (req, res, next) => {
   try {
-    const bookigDetails = await booking.find();
+    const bookigDetails = await booking.find({
+      email: "shankarreddyshiva83@gmail.com",
+    });
     console.log(bookigDetails);
     return res.status(200).json({
       bookigDetails,

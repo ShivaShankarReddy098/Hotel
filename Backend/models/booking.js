@@ -10,6 +10,10 @@ const bookingSchema = new Schema({
     type: String,
     required: [true, "checkOut required"],
   },
+  email:{
+    type:String,
+    required:[true,'email is required']
+  },
   rooms: {
     type: Number,
     required: [true, "rooms required"],
