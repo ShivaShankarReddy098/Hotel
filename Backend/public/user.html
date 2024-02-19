@@ -116,21 +116,23 @@
               <button id="updateBtn">Update Booking</button>
             </div>
           </div> -->
+          <button class="myDetailsBtn">My Booking Details</button>
+          <br /><br />
           <div class="userLeftMain">
             <p
               style="
                 text-align: center;
-                color: rgb(99, 31, 216);
+                color: rgb(14, 14, 14);
                 font-size: 1.4rem;
               "
             >
               Your booking details
             </p>
-            <p class="p1"></p>
-            <p class="p2"></p>
-            <p class="p3"></p>
-            <p class="p4"></p>
-            <p class="p5"></p>
+            <p class="p1" style="color: rgb(51, 7, 245)"></p>
+            <p class="p2" style="color: rgb(51, 7, 245)"></p>
+            <p class="p3" style="color: rgb(51, 7, 245)"></p>
+            <p class="p4" style="color: rgb(51, 7, 245)"></p>
+            <p class="p5" style="color: rgb(51, 7, 245)"></p>
             <div class="user-btn">
               <button id="cancelBtn">Cancel Booking</button>
               <button id="updateBtn">Update Booking</button>
@@ -158,45 +160,48 @@
       let p5 = document.querySelector(".p5");
       let updateBtn = document.getElementById("updateBtn");
       let cancelBtn = document.getElementById("cancelBtn");
+      let myDetailsBtn = document.querySelector(".myDetailsBtn");
       //io need to fetch the data from  server and display it here
-      // updateBtn.addEventListener("click", () => {
-      fetch("/bookingDetails")
-        .then((res) => {
-          console.log("Response status:", res.status);
-          return res.json();
-        })
-        .then((data) => {
-          console.log("Response data:", data);
-          p1.textContent = `checkIn:2024-02-24`;
-          p2.textContent = `checkOut:2024-02-25`;
-          p3.textContent = `rooms:1`;
-          p4.textContent = `members:3`;
-          p5.textContent = `type:ac`;
-          // Update UI with data
-        })
-        .catch((error) => {
-          console.error("Fetch error:", error);
+      async function getData() {
+        const response = await fetch("/bookingDetails", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
         });
-      // });
-
-      // console.log("hi");
-      // if (data.checkIn == "2024-02-17" && data.checkOut == "2024-02-18") {
-
-      // // }
-
-      //Updating the booking details
-      //   updateBtn.addEventListener("click", ()=>{
-      //     window.location.href = `/user/updateBooking?bookingId=${data._id} `;
-      //   });
-
-      //   //Cancelling the booking
-      //   cancelBtn.addEventListener("click", (e)=>{
-      //       e.preventDefault();
-      //       if(confirm("Are you sure you want to cancel this booking?")) {
-      //         fetch(`/user/deleteBooking/${data._id}`, {method:"DELETE"})
-      //           .then(()=>window.location.reload());
-      //}
-      // });
+        if (response) {
+          let data = await response.json();
+          let arr = data.map((items) => {
+            return items;
+          });
+          console.log(arr[0]);
+          p1.innerHTML = `checkIn:${arr[arr.length - 1].checkIn}`;
+          p2.innerHTML = `checkOut: ${arr[arr.length - 1].checkOut}`;
+          p3.innerHTML = `Rooms:${arr[arr.length - 1].rooms}`;
+          p4.innerHTML = `Members:${arr[arr.length - 1].members}`;
+          p5.innerHTML = `Type:${arr[arr.length - 1].type}`;
+        }
+      }
+      async function deleteData() {
+        const response = await fetch("/bookingdetails", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+        });
+        if (response) {
+          let data = await response.json();
+          let arr = data.map((items) => {
+            return items;
+          });
+        }
+      }
+      myDetailsBtn.addEventListener("click", () => {
+        getData();
+      });
+      cancelBtn.addEventListener("click", () => {
+        alert("Are you sure ?");
+        deleteData();
+        alert(`Booking Deleted Successfully`);
+        window.location.href = "home.html";
+        console.log("booking data deleted");
+      });
     </script>
   </body>
 </html>

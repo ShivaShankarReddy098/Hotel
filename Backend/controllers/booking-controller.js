@@ -6,10 +6,8 @@ bookingCltr.getBookingDetails = async (req, res, next) => {
     const bookigDetails = await booking.find({
       email: "shankarreddyshiva83@gmail.com",
     });
-    console.log(bookigDetails);
-    return res.status(200).json({
-      bookigDetails,
-    });
+    // console.log(bookigDetails);
+    return res.status(200).send(bookigDetails);
   } catch (err) {
     console.log("ERROR", err);
   }
@@ -27,13 +25,13 @@ bookingCltr.createBooking = async (req, res) => {
     );
     console.log("booking created");
     await newBooking.save();
-    // res.set({
-    //   "Allow-access-Allow-Origin": "*",
-    // });
-    // return res.redirect("./public/bookingSubmitted.html");
-    return res.status(200).json({
-      newBooking,
+    res.set({
+      "Allow-access-Allow-Origin": "*",
     });
+    return res.redirect("/bookingSubmitted.html");
+    // return res.status(200).json({
+    //   newBooking,
+    // });
   } catch (err) {
     console.log("ERROR", err);
   }
@@ -65,10 +63,10 @@ bookingCltr.deleteBooking = async (req, res) => {
   try {
     const deleteId = req.params.id;
     await booking.findByIdAndDelete(deleteId, {});
-    console.log("user deleted");
-    return res.status(200).json({
-      message: "User data removed ",
-    });
+    console.log("booking deleted");
+    // return res.status(200).json({
+    //   message: "User data removed ",
+    // });
   } catch (err) {
     console.log("ERROR", err);
   }
