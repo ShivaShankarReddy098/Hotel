@@ -118,8 +118,8 @@
           </div> -->
           <button class="myDetailsBtn">My Booking Details</button>
           <br /><br />
-          <div class="userLeftMain">
-            <p
+           <div class="userLeftMain">
+            <!-- <p
               style="
                 text-align: center;
                 color: rgb(14, 14, 14);
@@ -133,15 +133,15 @@
             <p class="p3" style="color: rgb(51, 7, 245)"></p>
             <p class="p4" style="color: rgb(51, 7, 245)"></p>
             <p class="p5" style="color: rgb(51, 7, 245)"></p>
-            <div class="user-btn">
-              <button id="cancelBtn">Cancel Booking</button>
-              <button id="updateBtn">Update Booking</button>
+            <div class="user-btn"> -->
+              <!-- <button id="cancelBtn">Cancel Booking</button>
+              <button id="updateBtn">Update Booking</button> -->
             </div>
           </div>
         </div>
-        <div class="userRigth">
+        <!-- <div class="userRigth">
           <div class="userRigthMain"></div>
-        </div>
+        </div> -->
       </div>
     </section>
     <footer class="footer">
@@ -153,13 +153,14 @@
       </div>
     </footer>
     <script>
-      let p1 = document.querySelector(".p1");
-      let p2 = document.querySelector(".p2");
-      let p3 = document.querySelector(".p3");
-      let p4 = document.querySelector(".p4");
-      let p5 = document.querySelector(".p5");
-      let updateBtn = document.getElementById("updateBtn");
-      let cancelBtn = document.getElementById("cancelBtn");
+      let userLeftMain=document.querySelector(".userLeftMain");
+      // let p1 = document.querySelector(".p1");
+      // let p2 = document.querySelector(".p2");
+      // let p3 = document.querySelector(".p3");
+      // let p4 = document.querySelector(".p4");
+      // let p5 = document.querySelector(".p5");
+      // let updateBtn = document.getElementById("updateBtn");
+      // let cancelBtn = document.getElementById("cancelBtn");
       let myDetailsBtn = document.querySelector(".myDetailsBtn");
       //io need to fetch the data from  server and display it here
       async function getData() {
@@ -172,14 +173,52 @@
           let arr = data.map((items) => {
             return items;
           });
-          console.log(arr[0]);
-          p1.innerHTML = `checkIn:${arr[arr.length - 1].checkIn}`;
-          p2.innerHTML = `checkOut: ${arr[arr.length - 1].checkOut}`;
-          p3.innerHTML = `Rooms:${arr[arr.length - 1].rooms}`;
-          p4.innerHTML = `Members:${arr[arr.length - 1].members}`;
-          p5.innerHTML = `Type:${arr[arr.length - 1].type}`;
+          console.log(
+            arr.map((Data) => {
+              return Data;
+            })
+          );
+          for(let  i=0;i<arr.length;i++){
+          const createDiv=document.createElement( "div" ) ;
+          createDiv.className='userLeftMain';
+          // createDiv.style.display="flex";
+          const p1=document.createElement('p');
+          const p2=document.createElement('p');
+          const p3=document.createElement('p');
+          const p4=document.createElement('p');
+          const p5=document.createElement('p');
+          const cancelBtn=document.createElement('button');
+          cancelBtn.className=' cancelBtn';
+          cancelBtn.innerHTML='Cancel Booking'
+          const updateBtn=document.createElement('button');
+          updateBtn.className='updateBtn';
+          updateBtn.innerHTML= 'Update Details';
+          // p.innerHTML=`checkIn:${(arr[i].checkIn)}`;
+          // console.log((arr[i]).checkIn);
+          p1.innerHTML = `checkIn:${(arr[i]).checkIn}`;
+          p2.innerHTML = `checkOut: ${(arr[i]).checkOut}`;
+          p3.innerHTML = `Rooms:${(arr[i]).rooms}`;
+          p4.innerHTML = `Members:${(arr[i]).members}`;
+          p5.innerHTML = `Type:${(arr[i]).type}`;
+          createDiv.appendChild(p1);
+          createDiv.appendChild(p2);
+          createDiv.appendChild(p3);
+          createDiv.appendChild(p4);
+          createDiv.appendChild(p5);
+          createDiv.appendChild(cancelBtn);
+          cancelBtn.addEventListener("click", () => {
+           alert("Are you sure ?");
+           deleteData();
+           alert(`Booking Deleted Successfully`);
+           window.location.href = "home.html";
+           console.log("booking data deleted");
+      });
+          createDiv.appendChild(updateBtn);
+          userLeftMain.appendChild(createDiv);
+          
         }
       }
+    }
       async function deleteData() {
         const response = await fetch("/bookingdetails", {
           method: "DELETE",
@@ -194,14 +233,9 @@
       }
       myDetailsBtn.addEventListener("click", () => {
         getData();
+        myDetailsBtn.style.display="none";
       });
-      cancelBtn.addEventListener("click", () => {
-        alert("Are you sure ?");
-        deleteData();
-        alert(`Booking Deleted Successfully`);
-        window.location.href = "home.html";
-        console.log("booking data deleted");
-      });
+       
     </script>
   </body>
 </html>
